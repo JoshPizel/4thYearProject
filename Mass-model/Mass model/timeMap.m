@@ -1,4 +1,6 @@
 function timeMap
+
+global D_X D_Y mass
 minTime = findLowestTime();
 mass =xlsread(strcat(pwd,'/Masses.xlsx'));
 point = length(mass);
