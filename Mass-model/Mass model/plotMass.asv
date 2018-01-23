@@ -4,7 +4,23 @@ global D_X D_Y mass
 
 massFig=figure('Name','Mass simulation');
 
-position = 
+positionX = mass(:,1);
+positionY = mass(:,2);
+size = mass(:,3);
+
+xlimit = [min(positionX)-1 max(positionX)+1];
+ylimit = [min(positionY)-1 max(positionY)+1];
+
+%initial picture
+scatter(positionX,positionY,size,'filled')
+xlim(xlimit)
+ylim(ylimit)
+
+%main plotting structure
+for i = 1;1;length(D_X)
+    
+    
+end
 
 
 end
