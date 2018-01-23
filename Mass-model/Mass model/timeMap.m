@@ -75,20 +75,22 @@ for count = 2:1:time_count_max %each time record a point
     end
 end
 
-file = fopen(strcat(pwd,'/positions.txt'),'w');
-%initial setup information
-fprintf(file, '%i %i \r\n',time_count_max,point);
+% file = fopen(strcat(pwd,'/positions.txt'),'w');
+% %initial setup information
+% fprintf(file, '%i %i \r\n',time_count_max,point);
+% 
+% for row =1:1:row
+%     fprintf(file, '%i %d %d\r\n',row,mass(row,1),mass(row,2));
+% end    
+%     
+% for count = 1:1:time_count_max
+%     for row = 1:1:point
+%         fprintf(file, '%i %i %.6e %.6e \r\n', count,row,X_pos(count,row),Y_pos(count,row));
+%     end
+% end
+% fclose('all');
 
-for row =1:1:row
-    fprintf(file, '%i %d %d\r\n',row,mass(row,1),mass(row,2));
-end    
-    
-for count = 1:1:time_count_max
-    for row = 1:1:point
-        fprintf(file, '%i %i %.6e %.6e \r\n', count,row,X_pos(count,row),Y_pos(count,row));
-    end
-end
-fclose('all');
+plotMass
 
 figure(1);
 plot(D_X(3:time_count_max,6),D_Y(3:time_count_max,6));
