@@ -27,8 +27,8 @@ image{1} = frame2im(Frame);
 filename = 'image.gif';
 
 [A,map] = rgb2ind(image{1},256);
-imwrite(A,map,filename,'gif','loopCount',Inf,'DelayTime',1);
-%else imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',1);
+imwrite(A,map,filename,'gif','loopCount',Inf,'DelayTime',0.005);
+%else
 
 %main plotting structure
 for i = 2:1:length(D_X) %loop for each image
