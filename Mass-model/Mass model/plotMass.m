@@ -1,7 +1,7 @@
 function plotMass
 %function will plot current position of masses and create a picture of such
 global D_X D_Y mass
-nImages = length(D_X);
+%nImages = length(D_X);
 massFig=figure('Name','Mass simulation');
 
 positionX = mass(:,1);
@@ -9,13 +9,16 @@ positionY = mass(:,2);
 
 defpositionX=positionX;
 defpositionY=positionY;
-size = mass(:,3);
+%size = mass(:,3);
+%walls = positionX(size>40);
+%moveables = positionX(size<40);
+
 
 xlimit = [min(positionX)-1 max(positionX)+1];
 ylimit = [min(positionY)-1 max(positionY)+1];
 
 %initial picture
-scatter(positionX,positionY,size,'filled')
+scatter(positionX,positionY,'filled')
 xlim(xlimit)
 ylim(ylimit)
 
@@ -36,7 +39,7 @@ for i = 2:1:length(D_X) %loop for each image
         positionX(j) = defpositionX(j)+D_X(i,j);
         positionY(j) = defpositionY(j)+D_Y(i,j);
     end
-    scatter(positionX,positionY,size,'filled')
+    scatter(positionX,positionY,'filled')
     xlim(xlimit)
     ylim(ylimit)
     

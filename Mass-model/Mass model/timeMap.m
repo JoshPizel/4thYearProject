@@ -31,8 +31,8 @@ springsV(:,:,2) =1; %for now set all spring values to 1. can be changed later.
 
 %initial offsets
 D_X(1,6)=0.85;D_X(2,6)=0.8501;
-D_Y(1,6)=0;D_Y(2,6)=0;
-D_T = minTime;
+D_Y(1,6)=0.1;D_Y(2,6)=0.1;
+D_T = 0.001;
 
 for count = 2:1:time_count_max %each time record a point
     D_Y_next = zeros(point,1);
