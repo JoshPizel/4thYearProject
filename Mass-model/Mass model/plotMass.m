@@ -22,15 +22,15 @@ scatter(positionX,positionY,'filled')
 xlim(xlimit)
 ylim(ylimit)
 
-Frame = getframe(massFig);
-
-
-image{1} = frame2im(Frame);
-
-filename = 'image.gif';
-
-[A,map] = rgb2ind(image{1},256);
-imwrite(A,map,filename,'gif','loopCount',Inf,'DelayTime',0.005);
+%initial for gif creation
+% Frame = getframe(massFig);
+% 
+% image{1} = frame2im(Frame);
+% 
+% filename = 'image.gif';
+% 
+% [A,map] = rgb2ind(image{1},256);
+% imwrite(A,map,filename,'gif','loopCount',Inf,'DelayTime',0.005);
 %else
 
 %main plotting structure
@@ -45,10 +45,11 @@ for i = 2:1:length(D_X) %loop for each image
     
     drawnow
     
-    Frame = getframe(massFig);
-    image{i} = frame2im(Frame);
-    [A,map] =rgb2ind(image{i},256);
-    imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.005);
+    %PLots into gif file
+%     Frame = getframe(massFig);
+%     image{i} = frame2im(Frame);
+%     [A,map] =rgb2ind(image{i},256);
+%     imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.005);
 end
 
 

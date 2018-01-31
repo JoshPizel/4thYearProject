@@ -1,11 +1,26 @@
 function timeMap
 
-global D_X D_Y mass
-minTime = findLowestTime();
+global D_X D_Y mass springsVal
+
 mass =xlsread(strcat(pwd,'/Masses.xlsx'));
+
+springsConnection = findConnections();
+[m,n] = size(springsConnection);
+
+springsVal =zeros(m,n);
+checkSprings = springsConnection>0;%find which connections exist
+%not can change individual spring connections individually by use of
+%springSet = springsConnection==wantedSpring;
+%springsValue(springSet) = desiredValue;
+springsVal(checkSprings) =3; %for now set all spring values to 1. can be changed later.
+
 point = length(mass);
+massXpos=mass(:,1);
+massYpos=mass(:,2);
+massVal=mass(:,3);
 
 %run time;
+minTime = findLowestTime();
 time_count_max_sec=10;
 
 time_count_max = fix(time_count_max_sec/minTime)+1;
@@ -19,44 +34,34 @@ Y_pos=zeros(time_count_max,point);
 D_X=zeros(time_count_max,point);
 D_Y=zeros(time_count_max,point);
 
-%fill positions
-
-
-springsC = findConnections();
-
-[m,n] = size(springsC);
-
-springsV =zeros(m,n,2);
-springsV(:,:,2) =1; %for now set all spring values to 1. can be changed later.
-
 %initial offsets
 D_X(1,6)=0.85;D_X(2,6)=0.8501;
 D_Y(1,6)=0.1;D_Y(2,6)=0.1;
-D_T = 0.001;
+D_T = minTime;
 
 for count = 2:1:time_count_max %each time record a point
     D_Y_next = zeros(point,1);
     D_X_next = zeros(point,1);
     for row = 1:1:point%traverse masses
-        if(mass(row,3)<40)%check if it isn't a wall
+        if(massVal(row)<40)%check if it isn't a wall
             for col = 1:1:n %traversing connections
-                if(springsC(row,col)~=0)%check if there is a connection
-                    R_o = sqrt((mass(springsC(row,col),1)-mass(row,1))^2+((mass(springsC(row,col),2)-mass(row,2)))^2);
+                if(springsConnection(row,col)~=0)%check if there is a connection
+                    R_o = sqrt((massXpos(springsConnection(row,col))-massXpos(row))^2+((massYpos(springsConnection(row,col))-massYpos(row)))^2);
                     
-                    X_T(springsC(row,col),1)=D_X(count,springsC(row,col))+mass(springsC(row,col),1);
-                    X_T(row,1) = D_X(count,row)+mass(row,1);
+                    X_T(springsConnection(row,col),1)=D_X(count,springsConnection(row,col))+massXpos(springsConnection(row,col));
+                    X_T(row,1) = D_X(count,row)+massXpos(row);
                     
-                    Y_T(springsC(row,col),1)=D_Y(count,springsC(row,col))+mass(springsC(row,col),2);
-                    Y_T(row,1) = D_Y(count,row)+mass(row,2);
+                    Y_T(springsConnection(row,col),1)=D_Y(count,springsConnection(row,col))+massYpos(springsConnection(row,col));
+                    Y_T(row,1) = D_Y(count,row)+massYpos(row);
                     
-                    R_T = sqrt((X_T(springsC(row,col),1)-X_T(row,1))^2+(Y_T(springsC(row,col),2)-Y_T(row,2))^2);
+                    R_T = sqrt((X_T(springsConnection(row,col),1)-X_T(row,1))^2+(Y_T(springsConnection(row,col),2)-Y_T(row,2))^2);
                     
                     D_R = R_T-R_o;
                     
-                    phi = atan2(Y_T(springsC(row,col),1)-Y_T(row,1),X_T(springsC(row,col),1)-X_T(row,1));
+                    phi = atan2(Y_T(springsConnection(row,col),1)-Y_T(row,1),X_T(springsConnection(row,col),1)-X_T(row,1));
                     
-                    x_displace = springsV(row,col,2)*D_T^2/mass(row,1)*D_R*cos(phi);
-                    y_displace = springsV(row,col,2)*D_T^2/mass(row,1)*D_R*sin(phi);
+                    x_displace = springsVal(row,col)*D_T^2/massVal(row)*D_R*cos(phi);
+                    y_displace = springsVal(row,col)*D_T^2/massVal(row)*D_R*sin(phi);
                     
                     D_X_next(row,1) = D_X_next(row,1) + x_displace;
                     D_Y_next(row,1) = D_Y_next(row,1) + y_displace;
